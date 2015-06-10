@@ -23,6 +23,11 @@ get "/television_shows/:id" do
   erb :show, locals: { show: show, show_end: show_end(show) }
 end
 
+get "/television_shows/:id/edit" do
+  show = TelevisionShow.find(params[:id])
+  erb :new, locals: { show: show }
+end
+
 def show_end(show)
   if show.ending_year == nil
     "Present"

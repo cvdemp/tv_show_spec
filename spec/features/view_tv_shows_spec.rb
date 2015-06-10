@@ -7,20 +7,22 @@ feature "user views list of TV shows" do
   #
   # Acceptance Criteria:
   # * I can see the names and networks of all TV shows
+let(:game_of_thrones) { TelevisionShow.create!({
+      title: "Game of Thrones", network: "HBO",
+      starting_year: 2011, genre: "Fantasy"
+    }) }
+
+let(:married_with_children) { TelevisionShow.create!({
+      title: "Married... with Children", network: "Fox",
+      starting_year: 1987, ending_year: 1997,
+      genre: "Comedy"
+    }) }
+
 
   scenario "view list of TV shows" do
     # First create some sample TV shows
-    game_of_thrones = TelevisionShow.create!({
-        title: "Game of Thrones", network: "HBO",
-        starting_year: 2011, genre: "Fantasy"
-      })
-
-    married_with_children = TelevisionShow.create!({
-        title: "Married... with Children", network: "Fox",
-        starting_year: 1987, ending_year: 1997,
-        genre: "Comedy"
-      })
-
+    game_of_thrones
+    married_with_children
     # The user visits the index page
     visit "/television_shows"
 
@@ -40,7 +42,8 @@ feature "user views list of TV shows" do
   #   running.
 
   scenario "view details for a TV show" do
-    visit "/television_shows/2"
+    married_with_children
+    visit "/television_shows/#{married_with_children.id}"
     expect(page).to have_content("Married... with Children")
     expect(page).to have_content("Network: Fox")
     expect(page).to have_content("Years: 1987 - 1997")
@@ -49,7 +52,8 @@ feature "user views list of TV shows" do
   end
 
   scenario "view details for a TV show with missing information" do
-    visit "/television_shows/1"
+    game_of_thrones
+    visit "/television_shows/#{game_of_thrones.id}"
     expect(page).to have_content("2011 - Present")
   end
 end

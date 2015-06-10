@@ -18,16 +18,17 @@ feature "user adds a new TV show" do
 
   scenario "successfully add a new show" do
     visit "/television_shows/new"
-    fill_in "Title:", with: "How I Didn't Meet Your Mother"
+    fill_in "Title:", with: "How I Met Your Mother"
     fill_in "Network:", with: "ABC"
     fill_in "Starting Year:", with: "2006"
-    # fill_in "Ending Year:", with: "2014"
+    fill_in "Ending Year:", with: "2014"
     select "Action", from: "Genre:"
     fill_in "Synopsis:", with: "Pineapples"
     click_button "Add TV Show"
     expect(page).to have_content("How I Met Your Mother")
     expect(page).to have_content("Add New Show")
   end
+
   scenario "fails to add a show with invalid information" do
     visit "/television_shows/new"
     click_button "Add TV Show"
